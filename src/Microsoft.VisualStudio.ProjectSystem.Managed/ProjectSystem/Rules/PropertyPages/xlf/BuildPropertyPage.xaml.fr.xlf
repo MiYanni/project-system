@@ -114,7 +114,7 @@
       </trans-unit>
       <trans-unit id="EnumProperty|Nullable|Description">
         <source>Specifies the project-wide C# nullable context. Only available for projects that use C# 8.0 or later.</source>
-        <target state="translated">Spécifie le contexte nullable C# à l'échelle du projet. Uniquement disponible pour les projets qui utilisent C# 8.0 ou une version ultérieure.</target>
+        <target state="needs-review-translation">Spécifie le contexte nullable C# à l'échelle du projet. Uniquement disponible pour les projets qui utilisent C# 8.0 ou une version ultérieure.</target>
         <note />
       </trans-unit>
       <trans-unit id="EnumProperty|Nullable|DisplayName">
@@ -322,14 +322,24 @@
         <target state="translated">Chemin du fichier de documentation XML</target>
         <note />
       </trans-unit>
-      <trans-unit id="StringProperty|LangVersion|Description">
+      <trans-unit id="StringProperty|LangVersionLink|Description">
         <source>Why can't I select the C# language version?</source>
-        <target state="translated">Pourquoi ne puis-je pas sélectionner la version de langage C# ?</target>
+        <target state="new">Why can't I select the C# language version?</target>
+        <note />
+      </trans-unit>
+      <trans-unit id="StringProperty|LangVersionLink|DisplayName">
+        <source>Language version</source>
+        <target state="new">Language version</target>
+        <note />
+      </trans-unit>
+      <trans-unit id="StringProperty|LangVersion|Description">
+        <source>Contains the C# language version. Used for other properties' visibility calculation.</source>
+        <target state="needs-review-translation">Pourquoi ne puis-je pas sélectionner la version de langage C# ?</target>
         <note />
       </trans-unit>
       <trans-unit id="StringProperty|LangVersion|DisplayName">
         <source>Language version</source>
-        <target state="translated">Version du langage</target>
+        <target state="needs-review-translation">Version du langage</target>
         <note />
       </trans-unit>
       <trans-unit id="StringProperty|NoWarn|Description">

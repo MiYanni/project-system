@@ -45,11 +45,28 @@
                DisplayName="x86" />
   </EnumProperty>
 
+  <StringProperty Name="LangVersion"
+                  DisplayName="Language version"
+                  Description="Contains the C# language version. Used for other properties' visibility calculation."
+                  HelpUrl="https://aka.ms/csharp-versions"
+                  Category="General">
+    <StringProperty.Metadata>
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>true</NameValuePair.Value>
+      </NameValuePair>
+    </StringProperty.Metadata>
+  </StringProperty>
+
   <EnumProperty Name="Nullable"
                 DisplayName="Nullable"
                 Description="Specifies the project-wide C# nullable context. Only available for projects that use C# 8.0 or later."
                 HelpUrl="https://go.microsoft.com/fwlink/?linkid=2146796"
                 Category="General">
+    <!-- <EnumProperty.Metadata>
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>(contains (evaluated "Build" "LangVersion") (gte (evaluated "Build" "LangVersion") "8.0")</NameValuePair.Value>
+      </NameValuePair>
+    </EnumProperty.Metadata> -->
     <EnumProperty.DataSource>
       <DataSource HasConfigurationCondition="False" />
     </EnumProperty.DataSource>
@@ -83,11 +100,11 @@
     </BoolProperty.Metadata>
   </BoolProperty>
 
-  <StringProperty Name="LangVersion"
+  <StringProperty Name="LangVersionLink"
                   DisplayName="Language version"
                   Description="Why can't I select the C# language version?">
     <StringProperty.DataSource>
-      <DataSource PersistedName="LangVersion"
+      <DataSource PersistedName="LangVersionLink"
                   Persistence="ProjectFileWithInterception"
                   HasConfigurationCondition="False" />
     </StringProperty.DataSource>

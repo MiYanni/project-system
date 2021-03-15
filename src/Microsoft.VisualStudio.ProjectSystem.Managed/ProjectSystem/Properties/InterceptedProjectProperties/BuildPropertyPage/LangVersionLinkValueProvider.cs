@@ -2,8 +2,8 @@
 
 namespace Microsoft.VisualStudio.ProjectSystem.Properties
 {
-    [ExportInterceptingPropertyValueProvider("LangVersion", ExportInterceptingPropertyValueProviderFile.ProjectFile)]
-    internal sealed class LangVersionValueProvider : NoOpInterceptingPropertyValueProvider
+    [ExportInterceptingPropertyValueProvider("LangVersionLink", ExportInterceptingPropertyValueProviderFile.ProjectFile)]
+    internal sealed class LangVersionLinkValueProvider : NoOpInterceptingPropertyValueProvider
     {
     }
 }
