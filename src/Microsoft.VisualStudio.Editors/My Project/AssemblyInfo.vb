@@ -101,7 +101,6 @@ Imports System.Runtime.InteropServices
 <Assembly: TypeForwardedTo(GetType(Microsoft.VisualStudio.Editors.PropPageDesigner.DeferrableWindowPaneProviderService))>
 <Assembly: TypeForwardedTo(GetType(Microsoft.VisualStudio.Editors.PropPageDesigner.MultipleValuesStore))>
 <Assembly: TypeForwardedTo(GetType(Microsoft.VisualStudio.Editors.PropPageDesigner.PropertyPagePropertyDescriptor))>
-<Assembly: TypeForwardedTo(GetType(Microsoft.VisualStudio.Editors.PropPageDesigner.PropertyPageSerializationService))>
 <Assembly: TypeForwardedTo(GetType(Microsoft.VisualStudio.Editors.PropPageDesigner.PropPageDesignerDocData))>
 <Assembly: TypeForwardedTo(GetType(Microsoft.VisualStudio.Editors.PropPageDesigner.PropPageDesignerEditorFactory))>
 <Assembly: TypeForwardedTo(GetType(Microsoft.VisualStudio.Editors.PropPageDesigner.PropPageDesignerLoader))>

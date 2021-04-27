@@ -23,13 +23,8 @@ Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
         Protected Overrides Sub Initialize()
             MyBase.Initialize()
 
-            'Add our ComponentSerializationService so that the basic designer will give us automatic Undo/Redo
-            Dim SerializationService As New PropertyPageSerializationService(LoaderHost)
-            LoaderHost.AddService(GetType(ComponentSerializationService), SerializationService)
             LoaderHost.AddService(GetType(Shell.Design.WindowPaneProviderService),
                 New DeferrableWindowPaneProviderService(LoaderHost))
-            Debug.Assert(GetService(GetType(ComponentSerializationService)) IsNot Nothing,
-                "We just made the ComponentSerializationService service available.  Why isn't it there?")
         End Sub
 
         ''' <summary>

@@ -671,8 +671,6 @@ Microsoft.VisualStudio.Editors.PropPageDesigner.MultipleValuesStore.SelectedPlat
 Microsoft.VisualStudio.Editors.PropPageDesigner.MultipleValuesStore.Values -> Object()
 Microsoft.VisualStudio.Editors.PropPageDesigner.PropertyPagePropertyDescriptor
 Microsoft.VisualStudio.Editors.PropPageDesigner.PropertyPagePropertyDescriptor.New(PropDesc As System.ComponentModel.PropertyDescriptor, PropertyName As String) -> Void
-Microsoft.VisualStudio.Editors.PropPageDesigner.PropertyPageSerializationService
-Microsoft.VisualStudio.Editors.PropPageDesigner.PropertyPageSerializationService.New(Provider As System.IServiceProvider) -> Void
 Microsoft.VisualStudio.Editors.PropPageDesigner.PropPageDesignerDocData
 Microsoft.VisualStudio.Editors.PropPageDesigner.PropPageDesignerDocData.Close() -> Integer
 Microsoft.VisualStudio.Editors.PropPageDesigner.PropPageDesignerDocData.Close2() -> Integer
@@ -1021,15 +1019,6 @@ Overrides Microsoft.VisualStudio.Editors.PropPageDesigner.PropertyPagePropertyDe
 Overrides Microsoft.VisualStudio.Editors.PropPageDesigner.PropertyPagePropertyDescriptor.ResetValue(Component As Object) -> Void
 Overrides Microsoft.VisualStudio.Editors.PropPageDesigner.PropertyPagePropertyDescriptor.SetValue(Component As Object, Value As Object) -> Void
 Overrides Microsoft.VisualStudio.Editors.PropPageDesigner.PropertyPagePropertyDescriptor.ShouldSerializeValue(Component As Object) -> Boolean
-Overrides Microsoft.VisualStudio.Editors.PropPageDesigner.PropertyPageSerializationService.CreateStore() -> System.ComponentModel.Design.Serialization.SerializationStore
-Overrides Microsoft.VisualStudio.Editors.PropPageDesigner.PropertyPageSerializationService.Deserialize(Store As System.ComponentModel.Design.Serialization.SerializationStore, Container As System.ComponentModel.IContainer) -> System.Collections.ICollection
-Overrides Microsoft.VisualStudio.Editors.PropPageDesigner.PropertyPageSerializationService.Deserialize(Store As System.ComponentModel.Design.Serialization.SerializationStore) -> System.Collections.ICollection
-Overrides Microsoft.VisualStudio.Editors.PropPageDesigner.PropertyPageSerializationService.DeserializeTo(Store As System.ComponentModel.Design.Serialization.SerializationStore, Container As System.ComponentModel.IContainer, ValidateRecycledTypes As Boolean, applyDefaults As Boolean) -> Void
-Overrides Microsoft.VisualStudio.Editors.PropPageDesigner.PropertyPageSerializationService.LoadStore(Stream As System.IO.Stream) -> System.ComponentModel.Design.Serialization.SerializationStore
-Overrides Microsoft.VisualStudio.Editors.PropPageDesigner.PropertyPageSerializationService.Serialize(Store As System.ComponentModel.Design.Serialization.SerializationStore, Value As Object) -> Void
-Overrides Microsoft.VisualStudio.Editors.PropPageDesigner.PropertyPageSerializationService.SerializeAbsolute(store As System.ComponentModel.Design.Serialization.SerializationStore, value As Object) -> Void
-Overrides Microsoft.VisualStudio.Editors.PropPageDesigner.PropertyPageSerializationService.SerializeMember(Store As System.ComponentModel.Design.Serialization.SerializationStore, OwningObject As Object, Member As System.ComponentModel.MemberDescriptor) -> Void
-Overrides Microsoft.VisualStudio.Editors.PropPageDesigner.PropertyPageSerializationService.SerializeMemberAbsolute(Store As System.ComponentModel.Design.Serialization.SerializationStore, OwningObject As Object, Member As System.ComponentModel.MemberDescriptor) -> Void
 Overrides Microsoft.VisualStudio.Editors.PropPageDesigner.PropPageDesignerLoader.Dispose() -> Void
 Overrides Microsoft.VisualStudio.Editors.PropPageDesigner.PropPageDesignerView.PreProcessMessage(ByRef msg As System.Windows.Forms.Message) -> Boolean
 Overrides Microsoft.VisualStudio.Editors.PropPageDesigner.PropPageDesignerView.ScrollablePanel.ScrollToControl(activeControl As System.Windows.Forms.Control) -> System.Drawing.Point
