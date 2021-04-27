@@ -234,12 +234,6 @@ Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
         'True if we should check for simplified config mode having changed (used to keep from checking multiple times in a row)
         Private _needToCheckForModeChanges As Boolean
 
-        'The number of undo units that were available when the page was in a clean state.
-        Private _undoUnitsOnStackAtCleanState As Integer
-
-        ' The UndoEngine for this designer
-        Private WithEvents _undoEngine As UndoEngine
-
         ' The DesignerHost for this designer
         Private WithEvents _designerHost As IDesignerHost
 
@@ -274,7 +268,6 @@ Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
                         _rootDesigner.RemoveMenuCommands()
                     End If
 
-                    _undoEngine = Nothing
                     UnLoadPage()
                     If _components IsNot Nothing Then
                         _components.Dispose()
@@ -474,27 +467,8 @@ Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
             _needToCheckForModeChanges = False
             _fInitialized = True
 
-            If _undoEngine Is Nothing Then
-                _undoEngine = DirectCast(GetService(GetType(UndoEngine)), UndoEngine)
-            End If
-
             If _designerHost Is Nothing Then
                 _designerHost = DirectCast(GetService(GetType(IDesignerHost)), IDesignerHost)
-            End If
-        End Sub
-
-        ''' <summary>
-        ''' Occurs after an undo or redo operation has completed.
-        ''' </summary>
-        ''' <param name="sender"></param>
-        ''' <param name="e"></param>
-        Private Sub OnUndoEngineUndone(sender As Object, e As EventArgs) Handles _undoEngine.Undone
-            'Tell the project designer it needs to refresh its dirty status
-            If _loadedPageSite IsNot Nothing Then
-                Dim AppDesignerView As ApplicationDesignerView = TryCast(_loadedPageSite.GetService(GetType(ApplicationDesignerView)), ApplicationDesignerView)
-                If AppDesignerView IsNot Nothing Then
-                    AppDesignerView.DelayRefreshDirtyIndicators()
-                End If
             End If
         End Sub
 
@@ -631,7 +605,7 @@ Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
                     End If
 
                     ''Only set the undo redo state if we are loading a new page
-                    SetUndoRedoCleanState()
+                    ResetDirtyFlag()
                 Catch ex As Exception When ReportWithoutCrash(ex, NameOf(ActivatePage), NameOf(PropPageDesignerView))
                     'There was a problem displaying the property page.  Show the error control.
                     DisplayErrorControl(ex)
@@ -1609,20 +1583,9 @@ Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
         End Function
 
         ''' <summary>
-        ''' Sets the undo/redo level to a "clean" state
+        ''' Sets the dirty flag to a "clean" state
         ''' </summary>
-        Public Sub SetUndoRedoCleanState()
-            Dim CurrentUndoUnitsAvailable As Integer
-            If TryGetUndoUnitsAvailable(CurrentUndoUnitsAvailable) Then
-                'The page will be considered "clean" in the sense of undo/redo whenever
-                '  the number of undo units available matches the number available right now.
-                _undoUnitsOnStackAtCleanState = CurrentUndoUnitsAvailable
-            Else
-                Debug.Fail("SetUndoRedoCleanState(): unable to get undo units available")
-                _undoUnitsOnStackAtCleanState = 0
-            End If
-
-            'For pages that don't support Undo/Redo, reset their flag
+        Public Sub ResetDirtyFlag()
             _loadedPageSite.HasBeenSetDirty = False
         End Sub
 
@@ -1639,15 +1602,6 @@ Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
                 ' We will be called when the transaction closes...
                 '
                 Return False
-            ElseIf TypeOf PropPage Is IVsProjectDesignerPage Then
-                Dim UndoUnitsAvailable As Integer
-                If TryGetUndoUnitsAvailable(UndoUnitsAvailable) Then
-                    Return UndoUnitsAvailable <> _undoUnitsOnStackAtCleanState
-                Else
-                    'This can happen if the property page didn't load properly, etc.
-                    Switches.TracePDUndo("*** ShouldShowDirtyIndicator: Returning FALSE because GetUndoUnitsAvailable failed (possibly couldn't get UndoEngine)")
-                    Return False
-                End If
             Else
                 'Pages which do not support undo/redo simply show the asterisk if they are dirty
                 If PropPage.IsPageDirty() = NativeMethods.S_OK Then
@@ -1689,44 +1643,6 @@ Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
         Private Sub DisabledMenuCommandHandler(sender As Object, e As EventArgs)
         End Sub
 #End Region
-        ''' <summary>
-        ''' Returns the number of undo units currently available
-        ''' </summary>
-        ''' <returns>True if the function successfully retrieves the # of undo units available.  False if it
-        '''   fails (e.g., the Undo engine is not available, which can happen when the property page didn't 
-        '''   load properly, etc.)</returns>
-        Private Function TryGetUndoUnitsAvailable(ByRef UndoUnitsAvailable As Integer) As Boolean
-            UndoUnitsAvailable = 0
-
-            Dim UndoEngine As UndoEngine = TryCast(GetService(GetType(UndoEngine)), UndoEngine)
-            If UndoEngine IsNot Nothing Then
-                Debug.Assert(Not UndoEngine.UndoInProgress, "Trying to get undo units while undo in progress")
-                If Not UndoEngine.UndoInProgress Then
-                    Dim UndoManager As OleInterop.IOleUndoManager = TryCast(GetService(GetType(OleInterop.IOleUndoManager)), OleInterop.IOleUndoManager)
-                    Debug.Assert(UndoManager IsNot Nothing, "Unable to get IOleUndoManager from UneoEngine")
-                    If UndoManager IsNot Nothing Then
-                        Dim EnumUnits As OleInterop.IEnumOleUndoUnits = Nothing
-                        UndoManager.EnumUndoable(EnumUnits)
-                        If EnumUnits IsNot Nothing Then
-                            Dim cUnits As Integer = 0
-                            While True
-                                Dim Units(0) As OleInterop.IOleUndoUnit
-                                Dim cReturned As UInteger
-                                If VSErrorHandler.Failed(EnumUnits.Next(1, Units, cReturned)) OrElse cReturned = 0 Then
-                                    UndoUnitsAvailable = cUnits
-                                    Return True
-                                Else
-                                    Debug.Assert(cReturned = 1)
-                                    cUnits += 1
-                                End If
-                            End While
-                        End If
-                    End If
-                End If
-            End If
-
-            Return False
-        End Function
 
 #If DEBUG Then
         Private Sub ConfigurationPanel_SizeChanged(sender As Object, e As EventArgs) Handles ConfigurationPanel.SizeChanged

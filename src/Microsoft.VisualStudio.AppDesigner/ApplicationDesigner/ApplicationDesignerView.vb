@@ -1628,8 +1628,8 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
             If _designerPanels IsNot Nothing Then
                 'Was the project file saved?
                 If docCookie = GetProjectFileCookie(DTEProject) Then
-                    'Yes.  Need to reset the undo/redo clean state of all property pages
-                    SetUndoRedoCleanStateOnAllPropertyPages()
+                    'Yes.  Need to reset dirty flag of all property pages
+                    ResetDirtyFlagOnAllPropertyPages()
                 End If
                 DelayRefreshDirtyIndicators()
             End If
@@ -1687,20 +1687,20 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
         ''' Fires after all documents are saved (some of the documents saved may not be in the running document table).
         ''' </summary>
         Public Function OnAfterSaveAll() As Integer Implements IVsRunningDocTableEvents4.OnAfterSaveAll
-            'A Save All operation just occurred.  Need to reset the undo/redo clean state of all property pages
-            SetUndoRedoCleanStateOnAllPropertyPages()
+            'A Save All operation just occurred.  Need to reset dirty flag on all property pages
+            ResetDirtyFlagOnAllPropertyPages()
         End Function
 
         ''' <summary>
-        ''' Calls SetUndoRedoCleanState() on each property page
+        ''' Calls ResetDirtyFlag() on each property page
         ''' </summary>
-        Public Sub SetUndoRedoCleanStateOnAllPropertyPages()
+        Public Sub ResetDirtyFlagOnAllPropertyPages()
             For i As Integer = 0 To _designerPanels.Length - 1
                 Debug.Assert(_designerPanels(i) IsNot Nothing, "m_DesignerPanels(Index) should not be Nothing")
                 If _designerPanels(i) IsNot Nothing AndAlso _designerPanels(i).IsPropertyPage Then
                     Dim PropPageView As PropPageDesigner.PropPageDesignerView = TryCast(_designerPanels(i).DocView, PropPageDesigner.PropPageDesignerView)
                     If PropPageView IsNot Nothing Then
-                        PropPageView.SetUndoRedoCleanState()
+                        PropPageView.ResetDirtyFlag()
                     End If
                 End If
             Next

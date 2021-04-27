@@ -421,7 +421,7 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
                                 '  pages don't save changes to the project file but to somewhere
                                 '  else.
                                 If AppDesignerView IsNot Nothing Then
-                                    AppDesignerView.SetUndoRedoCleanStateOnAllPropertyPages()
+                                    AppDesignerView.ResetDirtyFlagOnAllPropertyPages()
                                 End If
                             End If
                         Finally

@@ -229,7 +229,7 @@ Microsoft.VisualStudio.Editors.ApplicationDesigner.ApplicationDesignerView.OnCmd
 Microsoft.VisualStudio.Editors.ApplicationDesigner.ApplicationDesignerView.OnElementValueChanged(elementid As UInteger, varValueOld As Object, varValueNew As Object) -> Integer
 Microsoft.VisualStudio.Editors.ApplicationDesigner.ApplicationDesignerView.OnInitializationComplete() -> Void
 Microsoft.VisualStudio.Editors.ApplicationDesigner.ApplicationDesignerView.OnSelectionChanged(pHierOld As Microsoft.VisualStudio.Shell.Interop.IVsHierarchy, itemidOld As UInteger, pMISOld As Microsoft.VisualStudio.Shell.Interop.IVsMultiItemSelect, pSCOld As Microsoft.VisualStudio.Shell.Interop.ISelectionContainer, pHierNew As Microsoft.VisualStudio.Shell.Interop.IVsHierarchy, itemidNew As UInteger, pMISNew As Microsoft.VisualStudio.Shell.Interop.IVsMultiItemSelect, pSCNew As Microsoft.VisualStudio.Shell.Interop.ISelectionContainer) -> Integer
-Microsoft.VisualStudio.Editors.ApplicationDesigner.ApplicationDesignerView.SetUndoRedoCleanStateOnAllPropertyPages() -> Void
+Microsoft.VisualStudio.Editors.ApplicationDesigner.ApplicationDesignerView.ResetDirtyFlagOnAllPropertyPages() -> Void
 Microsoft.VisualStudio.Editors.ApplicationDesigner.ApplicationDesignerView.SpecialFiles() -> Microsoft.VisualStudio.Shell.Interop.IVsProjectSpecialFiles
 Microsoft.VisualStudio.Editors.ApplicationDesigner.ApplicationDesignerView.SwitchTab(forward As Boolean) -> Void
 Microsoft.VisualStudio.Editors.ApplicationDesigner.ApplicationDesignerView.WindowFrame() -> Microsoft.VisualStudio.Shell.Interop.IVsWindowFrame
@@ -752,7 +752,7 @@ Microsoft.VisualStudio.Editors.PropPageDesigner.PropPageDesignerView.ScrollableP
 Microsoft.VisualStudio.Editors.PropPageDesigner.PropPageDesignerView.ScrollablePanel.New() -> Void
 Microsoft.VisualStudio.Editors.PropPageDesigner.PropPageDesignerView.ScrollablePanel.StopAutoScrollToControl(needStop As Boolean) -> Void
 Microsoft.VisualStudio.Editors.PropPageDesigner.PropPageDesignerView.SetProperty(PropertyName As String, Value As Object) -> Void
-Microsoft.VisualStudio.Editors.PropPageDesigner.PropPageDesignerView.SetUndoRedoCleanState() -> Void
+Microsoft.VisualStudio.Editors.PropPageDesigner.PropPageDesignerView.ResetDirtyFlag() -> Void
 Microsoft.VisualStudio.Editors.PropPageDesigner.PropPageDesignerView.ShouldShowDirtyIndicator() -> Boolean
 Microsoft.VisualStudio.Editors.PropPageDesigner.PropPageDesignerView.ShowErrorMessage(Message As String, HelpLink As String = Nothing) -> Void
 Microsoft.VisualStudio.Editors.PropPageDesigner.PropPageDesignerView.UnLoadPage() -> Void
