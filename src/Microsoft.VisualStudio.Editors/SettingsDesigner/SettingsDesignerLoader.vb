@@ -63,7 +63,6 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
 
             ' Add my services
             LoaderHost.AddService(GetType(INameCreationService), Me)
-            LoaderHost.AddService(GetType(ComponentSerializationService), New DesignerFramework.GenericComponentSerializationService(Nothing))
 
             ' Add our dynamic type service...
             Dim dynamicTypeService As DynamicTypeService =
@@ -122,7 +121,6 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
             'Note: LoaderHost.RemoveService does not raise any exceptions if the service we're trying to
             '  remove isn't already there, so there's no need for a try/catch.
             LoaderHost.RemoveService(GetType(INameCreationService))
-            LoaderHost.RemoveService(GetType(ComponentSerializationService))
 
             LoaderHost.RemoveService(GetType(SettingTypeNameResolutionService))
             LoaderHost.RemoveService(GetType(SettingsTypeCache))

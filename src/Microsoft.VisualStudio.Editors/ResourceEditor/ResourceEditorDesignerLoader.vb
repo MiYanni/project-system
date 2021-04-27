@@ -209,12 +209,6 @@ Namespace Microsoft.VisualStudio.Editors.ResourceEditor
         Protected Overrides Sub Initialize()
             MyBase.Initialize()
 
-            'Add our ComponentSerializationService so that the basic designer will give us automatic Undo/Redo
-            Dim SerializationService As New ResourceSerializationService()
-            LoaderHost.AddService(GetType(ComponentSerializationService), SerializationService)
-            Debug.Assert(GetService(GetType(ComponentSerializationService)) IsNot Nothing,
-                "We just made the ComponentSerializationService service available.  Why isn't it there?")
-
             'Add our EditorState object to the host as a service.
             'This is needed in order for the view to have its state persisted in the case of
             '  a document reload.
@@ -233,7 +227,6 @@ Namespace Microsoft.VisualStudio.Editors.ResourceEditor
             '
             'Note: LoaderHost.RemoveService does not raise any exceptions if the service we're trying to
             '  remove isn't already there, so there's no need for a try/catch.
-            LoaderHost.RemoveService(GetType(ComponentSerializationService))
             LoaderHost.RemoveService(GetType(ResourceEditorView.EditorState))
 
             MyBase.Dispose()

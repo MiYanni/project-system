@@ -71,22 +71,10 @@ Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
 
 #Region "Dispose/IDisposable"
         ''' <summary>
-        ''' Dispose of managed and unmanaged resources
-        ''' </summary>
-        ''' <param name="disposing">True if calling from Dispose()</param>
-        Private Overloads Sub Dispose(disposing As Boolean)
-            If disposing Then
-                'Remove our ComponentSerializationService
-                LoaderHost.RemoveService(GetType(ComponentSerializationService))
-            End If
-        End Sub
-
-        ''' <summary>
         ''' Semi-standard IDisposable implementation
         ''' </summary>
         ''' <remarks>MyBase.Dispose called since base does not implement IDisposable</remarks>
         Public Overloads Overrides Sub Dispose() Implements IDisposable.Dispose
-            Dispose(True)
             MyBase.Dispose() 'Necessary because the base does not implement IDisposable
             GC.SuppressFinalize(Me)
         End Sub

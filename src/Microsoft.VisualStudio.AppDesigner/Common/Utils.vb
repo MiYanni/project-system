@@ -687,21 +687,6 @@ Namespace Microsoft.VisualStudio.Editors.AppDesCommon
                 TelemetryService.DefaultSession.PostEvent(telemetryEvent)
             End Sub
 
-            Private Const BinaryFormatterEventName As String = AppDesignerEventNamePrefix + "binaryformatter"
-            Private Const BinaryFormatterPropertyNamePrefix As String = AppDesignerPropertyNamePrefix + "binaryformatter."
-            Public Enum BinaryFormatterOperation
-                Serialize = 0
-                Deserialize = 1
-            End Enum
-
-            Public Shared Sub LogBinaryFormatterEvent(className As String, operation As BinaryFormatterOperation, <CallerMemberName> Optional functionName As String = Nothing)
-                Dim userTask = New UserTaskEvent(BinaryFormatterEventName, TelemetryResult.Success)
-                userTask.Properties(BinaryFormatterPropertyNamePrefix + "functionname") = functionName
-                userTask.Properties(BinaryFormatterPropertyNamePrefix + "classname") = className
-                userTask.Properties(BinaryFormatterPropertyNamePrefix + "operation") = operation
-                TelemetryService.DefaultSession.PostEvent(userTask)
-            End Sub
-
         End Class
 #End Region
 
