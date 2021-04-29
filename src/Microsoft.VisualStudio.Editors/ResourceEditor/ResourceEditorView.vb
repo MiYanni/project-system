@@ -2489,20 +2489,23 @@ Namespace Microsoft.VisualStudio.Editors.ResourceEditor
         Private Function CreateDataObjectFromResources(Resources() As Resource) As IDataObject
             Dim Data As New DataObject
 
+            'Return Data
+
             '1) Create a structure with our raw resources data (our preferred format)
             Dim ResourcesData As New ResourcesDataFormat(Resources)
 
             TelemetryLogger.LogBinaryFormatterEvent(NameOf(ResourceEditorView), TelemetryLogger.BinaryFormatterOperation.Serialize)
 
             '... then package it into a serialized blob
-            Dim Stream As New MemoryStream
-            Call (New BinaryFormatter).Serialize(Stream, ResourcesData)
+            'Dim Stream As New MemoryStream
+            'Call (New BinaryFormatter).Serialize(Stream, ResourcesData)
 
             '... and stuff into a DataObject
-            Stream.Seek(0, SeekOrigin.Begin)
-            Dim Bytes(CInt(Stream.Length) - 1) As Byte
-            Stream.Read(Bytes, 0, CInt(Stream.Length))
-            Data.SetData(_CF_RESOURCES, False, Bytes)
+            'Stream.Seek(0, SeekOrigin.Begin)
+            'Dim Bytes(CInt(Stream.Length) - 1) As Byte
+            'Stream.Read(Bytes, 0, CInt(Stream.Length))
+            'Data.SetData(_CF_RESOURCES, False, Bytes)
+            Data.SetData(_CF_RESOURCES, False, ResourcesData)
 
             '2) Visual Studio solution explorer formats
             '
@@ -2991,12 +2994,15 @@ Namespace Microsoft.VisualStudio.Editors.ResourceEditor
                 Return
             End If
 
+            'Return
+
             TelemetryLogger.LogBinaryFormatterEvent(NameOf(ResourceEditorView), TelemetryLogger.BinaryFormatterOperation.Deserialize)
 
             'Decode the data format
-            Dim RawBytes() As Byte = DirectCast(Data.GetData(_CF_RESOURCES), Byte())
-            Dim MemoryStream As New MemoryStream(RawBytes)
-            Dim ResourcesData As ResourcesDataFormat = DirectCast((New BinaryFormatter).Deserialize(MemoryStream), ResourcesDataFormat)
+            'Dim RawBytes() As Byte = DirectCast(Data.GetData(_CF_RESOURCES), Byte())
+            'Dim MemoryStream As New MemoryStream(RawBytes)
+            'Dim ResourcesData As ResourcesDataFormat = DirectCast((New BinaryFormatter).Deserialize(MemoryStream), ResourcesDataFormat)
+            Dim ResourcesData As ResourcesDataFormat = DirectCast(Data.GetData(_CF_RESOURCES), ResourcesDataFormat)
 
             'Okay, we have our copied resources, let's add them
             AddResources(ResourcesData.Resources, CopyFileIfExists, AddToProject:=True)
