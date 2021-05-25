@@ -131,9 +131,11 @@ Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
             ''' </summary>
             ''' <param name="Stream">The stream to load from</param>
             Public Shared Function Load(Stream As Stream) As PropertyPageSerializationStore
-                TelemetryLogger.LogBinaryFormatterEvent(NameOf(PropertyPageSerializationStore), TelemetryLogger.BinaryFormatterOperation.Deserialize)
+                Dim Result = (New BinaryFormatter).Deserialize(Stream)
 
-                Return DirectCast((New BinaryFormatter).Deserialize(Stream), PropertyPageSerializationStore)
+                TelemetryLogger.LogBinaryFormatterEvent(NameOf(PropertyPageSerializationStore), TelemetryLogger.BinaryFormatterOperation.Deserialize, Result.GetType().FullName)
+
+                Return DirectCast(Result, PropertyPageSerializationStore)
             End Function
 
             ''' <summary>
@@ -146,7 +148,7 @@ Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
             Public Overrides Sub Save(Stream As Stream)
                 Close()
 
-                TelemetryLogger.LogBinaryFormatterEvent(NameOf(PropertyPageSerializationStore), TelemetryLogger.BinaryFormatterOperation.Serialize)
+                TelemetryLogger.LogBinaryFormatterEvent(NameOf(PropertyPageSerializationStore), TelemetryLogger.BinaryFormatterOperation.Serialize, [GetType]().FullName)
 
                 Call (New BinaryFormatter).Serialize(Stream, Me)
             End Sub
@@ -510,7 +512,7 @@ Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
                 ''' <param name="Object">The object to serialize</param>
                 ''' <returns>The binary serialized object.</returns>
                 Private Shared Function SerializeObject([Object] As Object) As Byte()
-                    TelemetryLogger.LogBinaryFormatterEvent(NameOf(SerializedProperty), TelemetryLogger.BinaryFormatterOperation.Serialize)
+                    TelemetryLogger.LogBinaryFormatterEvent(NameOf(SerializedProperty), TelemetryLogger.BinaryFormatterOperation.Serialize, [Object].GetType().FullName)
 
                     Dim MemoryStream As New MemoryStream
                     Call (New BinaryFormatter).Serialize(MemoryStream, [Object])
@@ -526,10 +528,12 @@ Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
                         Throw New Package.InternalException
                     End If
 
-                    TelemetryLogger.LogBinaryFormatterEvent(NameOf(SerializedProperty), TelemetryLogger.BinaryFormatterOperation.Deserialize)
-
                     Dim MemoryStream As New MemoryStream(_serializedValue)
-                    Return DirectCast((New BinaryFormatter).Deserialize(MemoryStream), PropPageDesignerRootComponent)
+                    Dim Result = (New BinaryFormatter).Deserialize(MemoryStream)
+
+                    TelemetryLogger.LogBinaryFormatterEvent(NameOf(SerializedProperty), TelemetryLogger.BinaryFormatterOperation.Deserialize, Result.GetType().FullName)
+
+                    Return DirectCast(Result, PropPageDesignerRootComponent)
                 End Function
 
                 ''' <summary>
@@ -545,10 +549,12 @@ Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
                         Return Nothing
                     End If
 
-                    TelemetryLogger.LogBinaryFormatterEvent(NameOf(SerializedProperty), TelemetryLogger.BinaryFormatterOperation.Deserialize)
-
                     Dim MemoryStream As New MemoryStream(_serializedValue)
-                    Return (New BinaryFormatter).Deserialize(MemoryStream)
+                    Dim Result = (New BinaryFormatter).Deserialize(MemoryStream)
+
+                    TelemetryLogger.LogBinaryFormatterEvent(NameOf(SerializedProperty), TelemetryLogger.BinaryFormatterOperation.Deserialize, Result.GetType().FullName)
+
+                    Return Result
                 End Function
 
             End Class 'SerializedProperty

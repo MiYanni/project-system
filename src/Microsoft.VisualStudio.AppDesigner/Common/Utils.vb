@@ -694,12 +694,14 @@ Namespace Microsoft.VisualStudio.Editors.AppDesCommon
                 Deserialize = 1
             End Enum
 
-            Public Shared Sub LogBinaryFormatterEvent(className As String, operation As BinaryFormatterOperation, <CallerMemberName> Optional functionName As String = Nothing)
+            Public Shared Sub LogBinaryFormatterEvent(className As String, operation As BinaryFormatterOperation, typeName As String, <CallerMemberName> Optional functionName As String = Nothing)
                 Dim userTask = New UserTaskEvent(BinaryFormatterEventName, TelemetryResult.Success)
                 userTask.Properties(BinaryFormatterPropertyNamePrefix + "functionname") = functionName
                 userTask.Properties(BinaryFormatterPropertyNamePrefix + "classname") = className
                 userTask.Properties(BinaryFormatterPropertyNamePrefix + "operation") = operation
                 TelemetryService.DefaultSession.PostEvent(userTask)
+                File.AppendAllLines("C:\Workspace\BFTypes-AppDesigner.txt", New String() {typeName})
+                Console.WriteLine(typeName)
             End Sub
 
         End Class
